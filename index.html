@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="main-container">
+        <div class="scroll-container">
+            <!-- Home Section -->
+            <section id="home" class="section">
+                <div class="content home-content">
+                    <div class="animated-background">
+                        <div class="shape shape1"></div>
+                        <div class="shape shape2"></div>
+                        <div class="shape shape3"></div>
+                        <div class="shape shape4"></div>
+                    </div>
+                    
+                    <div class="hero-text">
+                        <div class="greeting">Hello, I'm</div>
+                        <h1 class="name-animation">Glenn Mark <span class="highlight">Jacob</span></h1>
+                        <div class="title-wrapper">
+                            <p class="typewriter">Front-End Developer & Designer</p>
+                        </div>
+                        <!-- <div class="description">
+                            <p>Creating beautiful, responsive websites with modern technologies</p>
+                        </div> -->
+                        <div class="cta-buttons">
+                            <a href="#projects" class="btn primary-btn"><i class="fas fa-code"></i> View My Work</a>
+                            <a href="#contact" class="btn secondary-btn"><i class="fas fa-envelope"></i> Contact Me</a>
+                        </div>
+                    </div>
+                    
+                    <div class="scroll-indicator">
+                        <!-- <div class="mouse">
+                            <div class="wheel"></div>
+                        </div> -->
+                        <div class="arrow">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About Section -->
+            <section id="about" class="section">
+                <div class="content">
+                    <h2>About <span class="highlight">Me</span></h2>
+                    <div class="about-grid">
+                        <div class="profile-image">
+                            <img src="img/mypicture.jpg" alt="Jacob Smith" class="profile-pic">
+                            <div class="profile-blob"></div>
+                        </div>
+                        <div class="about-text">
+                            <p>"Hey! I’m a web developer who enjoys crafting user-friendly and responsive front-end experiences. I like turning ideas into clean, accessible designs that work well and feel intuitive."</p>
+                            
+                        </div>
+                        <div class="skills">
+                            <h3>My Skills</h3>
+                            <ul class="skill-list">
+                                <li><span class="skill-name">HTML/CSS</span><div class="skill-bar"><div class="skill-level" style="width: 90%"></div></div></li>
+                                <li><span class="skill-name">JavaScript</span><div class="skill-bar"><div class="skill-level" style="width: 70%"></div></div></li>
+                                <li><span class="skill-name">
+                                    Tailwind CSS</span><div class="skill-bar"><div class="skill-level" style="width: 85%"></div></div>
+                                </li>
+                                <li><span class="skill-name">UI/UX Design</span><div class="skill-bar"><div class="skill-level" style="width: 80%"></div></div></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Projects Section -->
+            <section id="projects" class="section">
+                <div class="content">
+                    <h2>My <span class="highlight">Projects</span></h2>
+                    <div class="project-grid">
+                        <div class="project-card" data-aos="fade-up">
+                            <div class="project-image" style="background-image: url('img/mindmate.png'); background-size: cover; background-position: center; background-repeat: no-repeat;"></div>
+                            <h3>MindMate</h3>
+                            <p>Developed a chatbot using Mistral API to provide mental health support and answer common questions.</p>
+                            <div class="project-tags">
+                                <span>Tailwind CSS</span>
+                                <span>JavaScript</span>
+                                <span>MongoDB</span>
+                                <span>Mistral API</span>
+                            </div>
+                            <a href="https://yourmindmate.netlify.app/" target="_blank" class="btn small-btn">View Project</a>
+                        </div>
+                        <div class="project-card" data-aos="fade-up" data-aos-delay="100">
+                            <div class="project-image" style="background-image: url('img/flasktalk.png'); background-size: cover; background-position: center; background-repeat: no-repeat;"></div>
+                            <h3>Flasktalk</h3>
+                            <p>Developed a Multi-User Chat Application using Flask and SocketIO to provide a multi-user chat experience.</p>
+                            <div class="project-tags">
+                                <span>Flask</span>
+                                <span>SocketIO</span>
+                                <span>HTML/CSS</span>
+                                <span>JavaScript</span>
+                            </div>
+                            <a href="https://multiuserchatapp.onrender.com/login?next=%2F" target="_blank" class="btn small-btn">View Project</a>
+                        </div>
+                        <div class="project-card" data-aos="fade-up" data-aos-delay="200">
+                            <div class="project-image" style="background-image: url('img/noraine.png'); background-size: cover; background-position: center; background-repeat: no-repeat;"></div>
+                            <h3>Birthday Invitation</h3>
+                            <p>an interactive birthday invitation using HTML, CSS, and JavaScript.</p>
+                            <div class="project-tags">
+                                <span>HTML</span>
+                                <span>CSS</span>
+                                <span>JavaScript</span>
+                                
+                            </div>
+                            <a href="https://norainedebut.netlify.app/" target="_blank" class="btn small-btn">View Project</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Section -->
+            <section id="contact" class="section">
+                <div class="content">
+                    <h2>Get In <span class="highlight">Touch</span></h2>
+                    <div class="contact-grid">
+                        <div class="contact-info">
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <p>jacobglennmark03@gmail.com</p>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-phone"></i>
+                                <p>09519224479</p>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <p>Nissan St Brixton Ville</p>
+                            </div>
+                            <div class="social-links">
+                                <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+                                <a href="#" class="social-icon"><i class="fab fa-linkedin"></i></a>
+                                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
+                        <form class="contact-form">
+                            <div class="form-group">
+                                <input type="text" placeholder="Your Name" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" placeholder="Your Email" required>
+                            </div>
+                            <div class="form-group">
+                                <textarea placeholder="Your Message" required></textarea>
+                            </div>
+                            <button type="submit" class="btn primary-btn">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="main-nav">
+            <div class="logo">GMJ</div>
+            <ul class="nav-dots">
+                <li><a href="#home" class="active"><span class="dot"></span><span class="label">Home</span></a></li>
+                <li><a href="#about"><span class="dot"></span><span class="label">About</span></a></li>
+                <li><a href="#projects"><span class="dot"></span><span class="label">Projects</span></a></li>
+                <li><a href="#contact"><span class="dot"></span><span class="label">Contact</span></a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
