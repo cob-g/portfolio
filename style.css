@@ -605,40 +605,53 @@ p {
 
 .skill-list {
     display: flex;
-    flex-direction: column;
-    gap: 1.2rem;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    list-style: none;
+    padding: 0;
+    margin-top: 0.5rem;
 }
 
 .skill-list li {
     display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
 }
 
-.skill-name {
-    font-weight: 500;
+.skill-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.45rem 1rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(100, 180, 255, 0.3);
+    color: #a8d4ff;
+    backdrop-filter: blur(6px);
+    transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+    cursor: default;
 }
 
-.skill-bar {
-    height: 8px;
-    background-color: var(--secondary-bg);
-    border-radius: 4px;
-    overflow: hidden;
+.skill-tag i {
+    font-size: 0.9rem;
+    opacity: 0.85;
 }
 
-.skill-level {
-    height: 100%;
-    background-color: var(--accent-blue);
-    border-radius: 4px;
-    animation: skillFill 1.5s ease-out forwards;
-    transform-origin: left;
-    transform: scaleX(0);
+.skill-tag:hover {
+    transform: translateY(-3px) scale(1.05);
+    background: rgba(100, 180, 255, 0.15);
+    box-shadow: 0 4px 16px rgba(100, 180, 255, 0.25);
 }
 
-@keyframes skillFill {
-    to {
-        transform: scaleX(1);
-    }
+.ai-tag {
+    background: rgba(160, 100, 255, 0.08);
+    border-color: rgba(160, 100, 255, 0.35);
+    color: #cba6f7;
+}
+
+.ai-tag:hover {
+    background: rgba(160, 100, 255, 0.2);
+    box-shadow: 0 4px 16px rgba(160, 100, 255, 0.3);
 }
 
 /* Projects Section */
