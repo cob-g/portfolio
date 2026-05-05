@@ -23,8 +23,12 @@ html {
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Space Grotesk', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: var(--bg-dark);
+    background-image:
+        radial-gradient(circle at 10% 10%, rgba(103, 177, 224, 0.12), transparent 35%),
+        radial-gradient(circle at 90% 20%, rgba(41, 128, 185, 0.15), transparent 40%),
+        radial-gradient(circle at 50% 90%, rgba(103, 177, 224, 0.08), transparent 35%);
     color: var(--text-light);
     overflow: hidden;
     line-height: 1.6;
@@ -47,6 +51,30 @@ ul {
     overflow: hidden;
 }
 
+/* Grid and noise overlays */
+.grid-overlay,
+.noise-overlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.grid-overlay {
+    background-image:
+        linear-gradient(rgba(103, 177, 224, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(103, 177, 224, 0.06) 1px, transparent 1px);
+    background-size: 60px 60px;
+    opacity: 0.4;
+}
+
+.noise-overlay {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+    background-size: 3px 3px;
+    opacity: 0.12;
+    mix-blend-mode: soft-light;
+}
+
 /* Logo styling */
 .logo {
     font-size: 28px;
@@ -64,6 +92,8 @@ ul {
     width: 400%; /* 100% for each section */
     height: 100vh;
     transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+    position: relative;
+    z-index: 1;
 }
 
 .section {
@@ -234,7 +264,7 @@ p {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: stretch;
     z-index: 1;
 }
 
@@ -291,6 +321,39 @@ p {
     animation: float 14s ease-in-out infinite alternate-reverse;
 }
 
+.liquid-orb {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(103, 177, 224, 0.9), rgba(103, 177, 224, 0.2) 45%, rgba(10, 18, 32, 0) 70%);
+    filter: blur(10px);
+    opacity: 0.7;
+    animation: liquidFloat 14s ease-in-out infinite alternate;
+}
+
+.orb-1 {
+    width: 260px;
+    height: 260px;
+    top: 8%;
+    left: 6%;
+}
+
+.orb-2 {
+    width: 340px;
+    height: 340px;
+    bottom: 6%;
+    right: 8%;
+    animation-duration: 18s;
+}
+
+@keyframes liquidFloat {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+    100% {
+        transform: translate(30px, -20px) scale(1.05);
+    }
+}
+
 @keyframes float {
     0% {
         transform: translate(0, 0) rotate(0deg);
@@ -301,10 +364,30 @@ p {
 }
 
 .hero-text {
-    text-align: center;
+    text-align: left;
     z-index: 2;
     max-width: 800px;
     animation: fadeIn 1.2s ease-out;
+}
+
+.hero-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 3rem;
+    align-items: center;
+    width: 100%;
+}
+
+.hero-left {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.hero-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .greeting {
@@ -326,7 +409,7 @@ p {
 
 .title-wrapper {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     height: 40px;
     margin-bottom: 1.5rem;
@@ -349,6 +432,126 @@ p {
     opacity: 0;
     animation: fadeIn 1s ease-out forwards;
     animation-delay: 1s;
+}
+
+/* Glass system */
+.glass-panel,
+.glass-card,
+.glass-mini,
+.glass-pill {
+    background: linear-gradient(135deg, rgba(21, 31, 46, 0.65), rgba(10, 18, 32, 0.35));
+    border: 1px solid rgba(103, 177, 224, 0.2);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+}
+
+.glass-panel {
+    padding: 1.5rem;
+    border-radius: 18px;
+}
+
+.glass-card {
+    border-radius: 20px;
+}
+
+.glass-card-logo{
+    border-radius: 50px;
+    
+}
+
+.glass-mini {
+    padding: 0.8rem 1rem;
+    border-radius: 14px;
+    min-width: 110px;
+    text-align: left;
+}
+
+.glass-pill {
+    padding: 0.35rem 0.9rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.glass-pill.accent {
+    color: var(--bg-dark);
+    background: rgba(103, 177, 224, 0.7);
+    border-color: rgba(103, 177, 224, 0.7);
+}
+
+.hero-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.hero-stats {
+    display: flex;
+    gap: 1rem;
+}
+
+.stat-value {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--accent-blue);
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    opacity: 0.7;
+}
+
+.access-card {
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1.5rem;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+.card-chip {
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    border: 1px solid rgba(103, 177, 224, 0.35);
+}
+
+.card-name {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-top: 1rem;
+}
+
+.card-role {
+    opacity: 0.7;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-tag {
+    border: 1px solid rgba(103, 177, 224, 0.35);
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+}
+
+.qr {
+    width: 56px;
+    height: 56px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, rgba(103, 177, 224, 0.8), rgba(21, 31, 46, 0.3));
+    border: 1px solid rgba(103, 177, 224, 0.3);
 }
 
 /* Scroll indicator animation */
@@ -662,11 +865,16 @@ p {
 }
 
 .project-card {
-    background-color: var(--secondary-bg);
+    background-color: rgba(21, 31, 46, 0.7);
     border-radius: 10px;
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     animation: fadeIn 1s ease-out;
+    border: 1px solid rgba(103, 177, 224, 0.12);
+}
+
+.project-card.glass-card {
+    background: linear-gradient(135deg, rgba(21, 31, 46, 0.7), rgba(10, 18, 32, 0.45));
 }
 
 .project-card:hover {
@@ -793,8 +1001,8 @@ p {
 .form-group textarea {
     width: 100%;
     padding: 1rem;
-    background-color: var(--secondary-bg);
-    border: none;
+    background-color: rgba(10, 18, 32, 0.6);
+    border: 1px solid rgba(103, 177, 224, 0.2);
     border-radius: 5px;
     color: var(--text-light);
     font-family: inherit;
@@ -869,6 +1077,10 @@ p {
     .shape3 {
         width: 100px;
         height: 100px;
+    }
+
+    .hero-grid {
+        grid-template-columns: 1fr;
     }
 }
 
@@ -1048,3 +1260,5 @@ p {
         text-align: center;
     }
 }
+
+
