@@ -303,10 +303,6 @@
     .fg textarea { height:110px; }
     .fsubmit { width:100%;padding:.82rem;cursor:none;background:var(--btn-bg);color:#fff;border:1px solid rgba(103,177,224,.25);border-radius:var(--r-md);font-family:var(--font-body);font-size:14.5px;font-weight:500;display:flex;align-items:center;justify-content:center;gap:.5rem;transition:all .25s;box-shadow:0 0 20px rgba(28,110,160,.3),inset 0 1px 0 rgba(255,255,255,.07); }
     .fsubmit:hover { background:var(--accent-dark);border-color:var(--accent-blue);box-shadow:0 0 34px rgba(41,128,185,.45),inset 0 1px 0 rgba(255,255,255,.1);transform:translateY(-1px); }
-    .fsubmit[disabled] { opacity:.65; cursor:not-allowed; transform:none; box-shadow:none; }
-    .form-msg { margin-top:.9rem; font-size:13px; color:var(--text-muted); min-height:1.2em; }
-    .form-msg.ok { color:var(--accent-light); }
-    .form-msg.err { color:#f39c9c; }
 
     footer { border-top:1px solid rgba(103,177,224,.07);padding:1.8rem 0;text-align:center; }
     footer p { font-family:var(--font-mono);font-size:11px;color:var(--text-dim);letter-spacing:.06em; }
@@ -604,16 +600,15 @@
           </div>
         </div>
 
-        <form class="cform rev d2" id="contact-form" data-endpoint="https://YOUR_NETLIFY_SITE/.netlify/functions/send-mail">
+        <div class="cform rev d2">
           <div class="f-row">
-            <div class="fg"><label for="cf-name">Your Name</label><input id="cf-name" name="name" type="text" placeholder="John Doe" autocomplete="name" required></div>
-            <div class="fg"><label for="cf-email">Your Email</label><input id="cf-email" name="email" type="email" placeholder="john@email.com" autocomplete="email" required></div>
+            <div class="fg"><label>Your Name</label><input type="text" placeholder="John Doe"></div>
+            <div class="fg"><label>Your Email</label><input type="email" placeholder="john@email.com"></div>
           </div>
-          <div class="fg"><label for="cf-subject">Subject</label><input id="cf-subject" name="subject" type="text" placeholder="Project idea, collaboration..." autocomplete="off"></div>
-          <div class="fg"><label for="cf-message">Message</label><textarea id="cf-message" name="message" placeholder="Tell me about what you're working on..." required></textarea></div>
-          <button class="fsubmit" type="submit"><i class="fas fa-paper-plane"></i> Send Message</button>
-          <p class="form-msg" id="form-msg" aria-live="polite"></p>
-        </form>
+          <div class="fg"><label>Subject</label><input type="text" placeholder="Project idea, collaboration..."></div>
+          <div class="fg"><label>Message</label><textarea placeholder="Tell me about what you're working on..."></textarea></div>
+          <button class="fsubmit"><i class="fas fa-paper-plane"></i> Send Message</button>
+        </div>
       </div>
     </div>
   </section>
@@ -658,46 +653,6 @@ const qrEl=document.getElementById('qr');
 const ct=document.querySelector('.card-tilt');
 if(ct){document.addEventListener('mousemove',e=>{const rx2=((e.clientY/window.innerHeight)-.5)*10,ry2=(-(e.clientX/window.innerWidth)-.5)*10;ct.style.transform=`rotateX(${rx2}deg) rotateY(${ry2-10}deg)`;});}
 
-/* CONTACT FORM */
-const cform=document.getElementById('contact-form');
-if(cform){
-  const cmsg=document.getElementById('form-msg');
-  const cbtn=cform.querySelector('button[type="submit"]');
-  const fallbackEndpoint='https://YOUR_NETLIFY_SITE/.netlify/functions/send-mail';
-  const endpoint=cform.dataset.endpoint || (location.hostname.includes('netlify.app') ? '/.netlify/functions/send-mail' : fallbackEndpoint);
-
-  cform.addEventListener('submit',async e=>{
-    e.preventDefault();
-    if(endpoint.includes('YOUR_NETLIFY_SITE')){
-      if(cmsg){cmsg.textContent='Set your Netlify form endpoint first.';cmsg.className='form-msg err';}
-      return;
-    }
-    if(cbtn){cbtn.disabled=true;cbtn.setAttribute('aria-busy','true');}
-    if(cmsg){cmsg.textContent='Sending...';cmsg.className='form-msg';}
-
-    const payload={
-      name:(cform.elements['name']?.value || '').trim(),
-      email:(cform.elements['email']?.value || '').trim(),
-      subject:(cform.elements['subject']?.value || '').trim(),
-      message:(cform.elements['message']?.value || '').trim()
-    };
-
-    try{
-      const res=await fetch(endpoint,{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify(payload)
-      });
-      if(!res.ok) throw new Error('send failed');
-      if(cmsg){cmsg.textContent='Message sent. I will reply soon.';cmsg.className='form-msg ok';}
-      cform.reset();
-    }catch(err){
-      if(cmsg){cmsg.textContent='Could not send. Please try again.';cmsg.className='form-msg err';}
-    }finally{
-      if(cbtn){cbtn.disabled=false;cbtn.removeAttribute('aria-busy');}
-    }
-  });
-}
 </script>
 </body>
 </html>
