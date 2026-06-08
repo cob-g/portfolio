@@ -1,669 +1,382 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Glenn Mark Jacob — AI & Software Engineer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,700;12..96,800&family=Fira+Code:wght@300;400;500&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,700;12..96,800&family=Fira+Code:wght@300;400;500&family=Outfit:wght@300;400;500&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <style>
-    :root {
-      --bg-dark:          #0a1220;
-      --bg-secondary:     #151f2e;
-      --bg-deep:          #060d17;
-      --text-light:       #ffffff;
-      --text-muted:       rgba(164,208,237,0.55);
-      --text-dim:         rgba(164,208,237,0.28);
-      --accent-blue:      #67b1e0;
-      --accent-light:     #a4d0ed;
-      --accent-dark:      #2980b9;
-      --btn-bg:           #1c6ea0;
-      --glass-bg:         rgba(21,31,46,0.55);
-      --glass-border:     rgba(103,177,224,0.12);
-      --glass-glow:       rgba(103,177,224,0.25);
-      --glass-hover:      rgba(103,177,224,0.06);
-      --font-display:     'Bricolage Grotesque', sans-serif;
-      --font-mono:        'Fira Code', monospace;
-      --font-body:        'Outfit', sans-serif;
-      --r-sm: 8px; --r-md: 14px; --r-lg: 20px; --r-xl: 28px; --r-pill: 999px;
-    }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    img { max-width: 100%; height: auto; }
-    html { scroll-behavior: smooth; overflow-x: hidden; }
-    body {
-      background: var(--bg-dark); color: var(--text-light);
-      font-family: var(--font-body); font-size: 16px; line-height: 1.7;
-      overflow-x: hidden; cursor: none;
-    }
-
-    /* CURSOR */
-    #c-dot {
-      position: fixed; width: 8px; height: 8px; background: var(--accent-blue);
-      border-radius: 50%; pointer-events: none; z-index: 9999;
-      transform: translate(-50%,-50%);
-      box-shadow: 0 0 12px var(--accent-blue);
-      transition: width .15s, height .15s;
-    }
-    #c-ring {
-      position: fixed; width: 30px; height: 30px;
-      border: 1px solid rgba(103,177,224,.4); border-radius: 50%;
-      pointer-events: none; z-index: 9998; transform: translate(-50%,-50%);
-      transition: width .22s, height .22s, border-color .22s;
-    }
-    .ch #c-dot { width: 14px; height: 14px; }
-    .ch #c-ring { width: 50px; height: 50px; border-color: rgba(164,208,237,.55); }
-
-    /* SCROLL PROGRESS */
-    #spb {
-      position: fixed; top: 0; left: 0; height: 2px; width: 0;
-      background: linear-gradient(90deg, var(--accent-dark), var(--accent-light));
-      z-index: 999; box-shadow: 0 0 8px var(--accent-blue);
-    }
-
-    /* LIQUID BG */
-    .liquid-bg { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
-    .blob {
-      position: absolute; border-radius: 50%; filter: blur(90px);
-      animation: bdrift linear infinite; will-change: transform;
-    }
-    .b1 { width:650px;height:650px;background:rgba(41,128,185,.16);top:-15%;left:-12%;animation-duration:30s; }
-    .b2 { width:480px;height:480px;background:rgba(103,177,224,.09);top:38%;right:-14%;animation-duration:24s;animation-delay:-9s; }
-    .b3 { width:400px;height:400px;background:rgba(28,110,160,.20);bottom:-12%;left:22%;animation-duration:36s;animation-delay:-16s; }
-    .b4 { width:300px;height:300px;background:rgba(103,177,224,.07);top:18%;left:38%;animation-duration:20s;animation-delay:-6s; }
-    @keyframes bdrift {
-      0%   { transform:translate(0,0) scale(1) rotate(0deg); }
-      25%  { transform:translate(45px,-35px) scale(1.07) rotate(90deg); }
-      50%  { transform:translate(-25px,55px) scale(.93) rotate(180deg); }
-      75%  { transform:translate(65px,25px) scale(1.04) rotate(270deg); }
-      100% { transform:translate(0,0) scale(1) rotate(360deg); }
-    }
-
-    .grid-layer {
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      background-image:
-        linear-gradient(rgba(103,177,224,.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(103,177,224,.025) 1px, transparent 1px);
-      background-size: 60px 60px;
-    }
-
-    /* LAYOUT */
-    .site { position: relative; z-index: 1; }
-    section { min-height: 100vh; padding: 7rem 0 5rem; display: flex; align-items: center; }
-    .wrap { width: min(1120px, 90%); margin: 0 auto; }
-    .divider { width:100%;height:1px;background:linear-gradient(90deg,transparent,rgba(103,177,224,.1),transparent); }
-
-    /* TOP BAR */
-    .topbar {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-      padding: 1.1rem 2.5rem;
-      display: flex; justify-content: space-between; align-items: center;
-      background: linear-gradient(to bottom, rgba(6,13,23,.9) 0%, transparent 100%);
-    }
-    .logo { font-family: var(--font-mono); font-size: 13px; font-weight: 500; color: var(--accent-blue); letter-spacing:.12em; }
-    .logo em { font-style: normal; color: var(--accent-light); }
-    .avail-badge {
-      display: flex; align-items: center; gap: .5rem;
-      font-family: var(--font-mono); font-size: 11px; color: var(--text-muted);
-      padding: .32rem .9rem; border-radius: var(--r-pill);
-      background: rgba(21,31,46,.7); border: 1px solid var(--glass-border);
-      backdrop-filter: blur(12px);
-    }
-    .avail-dot {
-      width: 6px; height: 6px; border-radius: 50%;
-      background: #4fc3f7; box-shadow: 0 0 6px #4fc3f7;
-      animation: pdot 2.2s ease-in-out infinite;
-    }
-    @keyframes pdot { 0%,100%{opacity:1} 50%{opacity:.35} }
-
-    /* SIDE NAV */
-    .sidenav {
-      position: fixed; right: 2rem; top: 50%; transform: translateY(-50%);
-      z-index: 200; display: flex; flex-direction: column; gap: 1.4rem; align-items: flex-end;
-    }
-    .sidenav a { display:flex;align-items:center;gap:.6rem;text-decoration:none;cursor:none; }
-    .sn-lbl {
-      font-family: var(--font-mono); font-size: 9px; letter-spacing:.18em;
-      text-transform: uppercase; color: var(--text-dim);
-      opacity:0; transform:translateX(6px); transition:opacity .2s,transform .2s,color .2s;
-    }
-    .sn-dot { width:5px;height:5px;border-radius:50%;background:var(--text-dim);transition:background .3s,transform .3s,box-shadow .3s; }
-    .sidenav a:hover .sn-lbl,.sidenav a.active .sn-lbl { opacity:1;transform:translateX(0);color:var(--accent-light); }
-    .sidenav a:hover .sn-dot,.sidenav a.active .sn-dot { background:var(--accent-blue);transform:scale(1.8);box-shadow:0 0 10px var(--accent-blue); }
-
-    /* GLASS */
-    .glass { background:var(--glass-bg);border:1px solid var(--glass-border);backdrop-filter:blur(18px) saturate(1.3);-webkit-backdrop-filter:blur(18px) saturate(1.3);border-radius:var(--r-lg); }
-
-    /* SECTION TAG */
-    .stag { font-family:var(--font-mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent-blue);display:flex;align-items:center;gap:.55rem;margin-bottom:.7rem; }
-    .stag::before { content:'';display:inline-block;width:22px;height:1px;background:var(--accent-blue); }
-
-    h2.stitle { font-family:var(--font-display);font-weight:800;font-size:clamp(2rem,4vw,3.2rem);line-height:1.1;color:var(--text-light);margin-bottom:2.8rem; }
-    h2.stitle span { background:linear-gradient(110deg,var(--accent-blue) 10%,var(--accent-light) 80%);-webkit-background-clip:text;-webkit-text-fill-color:transparent; }
-
-    /* REVEAL */
-    .rev { opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease; }
-    .rev.in { opacity:1;transform:translateY(0); }
-    .d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.45s}
-
-    /* ═══ HERO ═══ */
-    #hero { padding-top: 9rem; }
-
-    .hero-grid { display:grid;grid-template-columns:1.1fr 1fr;gap:3.5rem;align-items:center; }
-
-    .hero-eyebrow { font-family:var(--font-mono);font-size:12px;letter-spacing:.14em;color:var(--accent-blue);margin-bottom:1.1rem;display:flex;align-items:center;gap:.6rem; }
-    .hero-eyebrow::before { content:'';width:28px;height:1px;background:var(--accent-blue);display:inline-block; }
-
-    .hero-name { font-family:var(--font-display);font-weight:800;font-size:clamp(3rem,5.5vw,5rem);line-height:1.0;letter-spacing:-.03em;margin-bottom:.5rem; }
-    .hero-name .l1 { display:block;color:var(--text-light); }
-    .hero-name .l2 { display:block;background:linear-gradient(115deg,var(--accent-dark) 0%,var(--accent-blue) 45%,var(--accent-light) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent; }
-
-    .hero-role { font-family:var(--font-mono);font-size:14px;font-weight:300;color:var(--text-muted);margin-bottom:1.6rem;min-height:1.5em; }
-    .tw-cur { display:inline-block;width:2px;height:.9em;background:var(--accent-blue);vertical-align:middle;margin-left:2px;animation:blink 1s step-end infinite; }
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-
-    .hero-desc { color:var(--text-muted);font-size:15.5px;line-height:1.85;max-width:460px;margin-bottom:2.2rem; }
-    .hero-desc strong { color:var(--accent-light);font-weight:400; }
-
-    .hero-ctas { display:flex;gap:.85rem;flex-wrap:wrap;margin-bottom:2rem; }
-
-    .btn { display:inline-flex;align-items:center;gap:.45rem;padding:.72rem 1.5rem;border-radius:var(--r-md);font-family:var(--font-body);font-size:14px;font-weight:500;text-decoration:none;cursor:none;transition:all .25s ease;border:1px solid transparent; }
-    .btn-solid { background:var(--btn-bg);color:#fff;border-color:rgba(103,177,224,.3);box-shadow:0 0 18px rgba(28,110,160,.35),inset 0 1px 0 rgba(255,255,255,.08); }
-    .btn-solid:hover { background:var(--accent-dark);border-color:var(--accent-blue);box-shadow:0 0 32px rgba(41,128,185,.5),inset 0 1px 0 rgba(255,255,255,.12);transform:translateY(-2px); }
-    .btn-outline { background:transparent;color:var(--text-muted);border-color:var(--glass-border); }
-    .btn-outline:hover { background:var(--glass-hover);color:var(--accent-light);border-color:var(--glass-glow);transform:translateY(-2px); }
-
-    .hero-socials { display:flex;gap:.6rem; }
-    .soc { width:36px;height:36px;border-radius:var(--r-sm);background:var(--glass-bg);border:1px solid var(--glass-border);display:flex;align-items:center;justify-content:center;color:var(--text-dim);font-size:13px;text-decoration:none;cursor:none;transition:all .22s;backdrop-filter:blur(10px); }
-    .soc:hover { background:rgba(28,110,160,.25);border-color:var(--glass-glow);color:var(--accent-light);transform:translateY(-2px);box-shadow:0 0 14px rgba(103,177,224,.15); }
-
-    /* ID Card */
-    .card-col { display:flex;justify-content:center;align-items:center; }
-    .card-scene { position:relative; }
-    .card-tilt { transform:rotateY(-10deg) rotateX(5deg);transition:transform .5s ease; }
-    .card-tilt:hover { transform:rotateY(0deg) rotateX(0deg); }
-
-    .id-card {
-      width: 295px; padding: 1.8rem 1.6rem; border-radius: var(--r-xl); position: relative; overflow: hidden;
-      background: linear-gradient(145deg, rgba(21,31,46,.85) 0%, rgba(10,18,32,.9) 100%);
-      border: 1px solid rgba(103,177,224,.22);
-      box-shadow: 0 0 0 1px rgba(103,177,224,.05),0 32px 64px rgba(6,13,23,.7),inset 0 1px 0 rgba(164,208,237,.1);
-    }
-    .card-liq { position:absolute;inset:0;pointer-events:none;z-index:0; }
-    .card-liq::before { content:'';position:absolute;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(41,128,185,.22),transparent 70%);top:-60px;right:-60px;animation:cliq 6s ease-in-out infinite alternate; }
-    .card-liq::after  { content:'';position:absolute;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(103,177,224,.11),transparent 70%);bottom:-40px;left:-30px;animation:cliq 8s ease-in-out infinite alternate-reverse; }
-    @keyframes cliq { from{transform:scale(1)} to{transform:scale(1.25) translate(8px,-8px)} }
-
-    .card-top { display:flex;justify-content:space-between;align-items:center;margin-bottom:1.6rem;position:relative;z-index:1; }
-    .card-badge { font-family:var(--font-mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent-blue);padding:3px 8px;border-radius:4px;background:rgba(103,177,224,.08);border:1px solid rgba(103,177,224,.2); }
-    .card-num { font-family:var(--font-mono);font-size:10px;color:var(--text-dim);letter-spacing:.1em; }
-
-    .card-avt-ring { width:68px;height:68px;border-radius:50%;padding:2px;margin-bottom:.9rem;position:relative;z-index:1;background:linear-gradient(135deg,var(--accent-dark),var(--accent-light)); }
-    .card-avt-inner { width:100%;height:100%;border-radius:50%;background:var(--bg-secondary);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:17px;font-weight:800;color:var(--accent-blue);overflow:hidden; }
-    .card-avt-inner img { width:100%;height:100%;object-fit:cover;border-radius:50%;display:block; }
-
-    .card-name-text { font-family:var(--font-display);font-weight:700;font-size:17px;color:var(--text-light);margin-bottom:.15rem;position:relative;z-index:1; }
-    .card-role-sub { font-family:var(--font-mono);font-size:10px;color:var(--text-muted);letter-spacing:.07em;margin-bottom:1.5rem;position:relative;z-index:1; }
-    .card-div { height:1px;background:linear-gradient(90deg,transparent,rgba(103,177,224,.18),transparent);margin-bottom:1rem; }
-    .card-foot { display:flex;justify-content:space-between;align-items:flex-end;position:relative;z-index:1; }
-    .card-specs { display:flex;flex-direction:column;gap:.35rem; }
-    .card-spec { font-family:var(--font-mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--accent-blue);display:flex;align-items:center;gap:.35rem; }
-    .card-spec::before { content:'';width:3px;height:3px;background:var(--accent-blue);border-radius:50%;display:inline-block; }
-    .qr-box { display:grid;grid-template-columns:repeat(6,1fr);gap:2px;width:44px; }
-    .qrc { aspect-ratio:1;border-radius:1.5px;background:rgba(103,177,224,.5); }
-    .qrc.e { background:transparent; }
-
-    /* Float chips */
-    .float-chip {
-      position:absolute;display:flex;align-items:center;gap:.45rem;
-      padding:.4rem .85rem;border-radius:var(--r-pill);
-      background:rgba(10,18,32,.88);border:1px solid var(--glass-border);
-      font-family:var(--font-mono);font-size:11px;color:var(--text-muted);
-      backdrop-filter:blur(14px);white-space:nowrap;
-      animation:fchip 4.5s ease-in-out infinite;
-    }
-    .float-chip i { font-size:11px;color:var(--accent-blue); }
-    .fctl { top:-1.1rem;right:-1.6rem;animation-delay:0s; }
-    .fcbl { bottom:-1.1rem;left:-1.6rem;animation-delay:2.2s; }
-    @keyframes fchip { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-9px)} }
-
-    /* ═══ ABOUT ═══ */
-    .about-grid { display:grid;grid-template-columns:1fr 1.5fr;gap:5rem;align-items:start; }
-
-    .about-img { position:relative; }
-    .pframe { position:relative;max-width:265px; }
-    .pframe img { width:100%;border-radius:var(--r-lg);border:none;filter:saturate(.85) contrast(1.05);display:block; }
-    .pfallback { width:265px;aspect-ratio:3/4;border-radius:var(--r-lg);background:var(--bg-secondary);border:none;display:none;align-items:center;justify-content:center;font-family:var(--font-display);font-size:3.5rem;font-weight:800;color:rgba(103,177,224,.15); }
-    .pframe-accent { display:none; }
-    .pglow { position:absolute;inset:-20%;z-index:-1;background:radial-gradient(ellipse,rgba(41,128,185,.18),transparent 70%);filter:blur(30px);animation:pglow 6s ease-in-out infinite alternate;border-radius:50%; }
-    @keyframes pglow { from{opacity:.45} to{opacity:1} }
-
-    .stat-row { display:flex;gap:.85rem;margin-top:1.8rem; }
-    .sbox { flex:1;padding:.85rem .7rem;text-align:center;border-radius:var(--r-md);background:var(--glass-bg);border:1px solid var(--glass-border); }
-    .sval { font-family:var(--font-display);font-size:1.6rem;font-weight:800;background:linear-gradient(115deg,var(--accent-blue),var(--accent-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:block; }
-    .slbl { font-family:var(--font-mono);font-size:9px;letter-spacing:.12em;color:var(--text-dim);text-transform:uppercase; }
-
-    .about-text p { color:var(--text-muted);font-size:15.5px;line-height:1.9;margin-bottom:1.1rem; }
-    .about-text strong { color:var(--accent-light);font-weight:400; }
-    .cvbtn { display:inline-flex;align-items:center;gap:.5rem;margin-top:1.3rem;padding:.6rem 1.2rem;border-radius:var(--r-md);background:transparent;border:1px solid var(--glass-border);color:var(--text-muted);font-family:var(--font-mono);font-size:12px;text-decoration:none;cursor:none;transition:all .22s; }
-    .cvbtn:hover { border-color:var(--glass-glow);color:var(--accent-light);background:var(--glass-hover); }
-
-    .skill-head { font-family:var(--font-display);font-size:.95rem;font-weight:600;color:var(--text-light);margin:2rem 0 .9rem;display:flex;align-items:center;gap:.65rem; }
-    .skill-head::after { content:'';flex:1;height:1px;background:rgba(103,177,224,.1); }
-
-    .chip-row { display:flex;flex-wrap:wrap;gap:.45rem; }
-    .chip { display:inline-flex;align-items:center;gap:.35rem;padding:.3rem .75rem;border-radius:var(--r-pill);font-family:var(--font-mono);font-size:11px;transition:all .2s; }
-    .cw { background:rgba(28,110,160,.18);border:1px solid rgba(103,177,224,.2);color:var(--accent-blue); }
-    .cw:hover { background:rgba(28,110,160,.3);box-shadow:0 0 12px rgba(103,177,224,.14); }
-    .ca { background:rgba(41,128,185,.12);border:1px solid rgba(164,208,237,.18);color:var(--accent-light); }
-    .ca:hover { background:rgba(41,128,185,.22);box-shadow:0 0 12px rgba(164,208,237,.1); }
-
-    /* ═══ PROJECTS ═══ */
-    .pj-intro { color:var(--text-muted);font-size:15.5px;max-width:500px;margin-bottom:3rem; }
-    .pj-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem; }
-
-    .pj-card { display:flex;flex-direction:column;border-radius:var(--r-lg);overflow:hidden;background:var(--glass-bg);border:1px solid var(--glass-border);backdrop-filter:blur(14px);transition:transform .35s ease,border-color .35s,box-shadow .35s;cursor:none; }
-    .pj-card:hover { transform:translateY(-7px);border-color:rgba(103,177,224,.3);box-shadow:0 24px 50px rgba(6,13,23,.55),0 0 0 1px rgba(103,177,224,.07),0 0 28px rgba(41,128,185,.07); }
-
-    .pj-thumb { aspect-ratio:16/10;position:relative;overflow:hidden;background:var(--bg-secondary); }
-    .pj-thumb img { width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease,filter .5s ease;filter:saturate(.65) brightness(.75); }
-    .pj-card:hover .pj-thumb img { transform:scale(1.07);filter:saturate(1) brightness(.95); }
-    .pj-thumb-fade { position:absolute;inset:0;background:linear-gradient(to bottom,transparent 30%,var(--bg-deep) 100%); }
-    .pj-num { position:absolute;top:.7rem;left:.7rem;font-family:var(--font-mono);font-size:9px;letter-spacing:.12em;color:var(--text-dim);background:rgba(6,13,23,.75);padding:2px 7px;border-radius:4px; }
-    .pj-empty { width:100%;height:100%;display:flex;align-items:center;justify-content:center; }
-    .pj-empty i { font-size:1.8rem;color:var(--text-dim);opacity:.3; }
-
-    .pj-body { padding:1.4rem;flex:1;display:flex;flex-direction:column; }
-    .pj-title { font-family:var(--font-display);font-size:1.1rem;font-weight:700;color:var(--text-light);margin-bottom:.45rem; }
-    .pj-desc { font-size:13px;color:var(--text-muted);line-height:1.72;flex:1;margin-bottom:1rem; }
-
-    .tech-row { display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:1rem; }
-    .tpill { font-family:var(--font-mono);font-size:9.5px;letter-spacing:.05em;padding:2px 8px;border-radius:4px;background:rgba(28,110,160,.18);border:1px solid rgba(103,177,224,.18);color:var(--accent-blue); }
-
-    .pj-link { display:inline-flex;align-items:center;gap:.4rem;font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;color:var(--accent-light);text-decoration:none;cursor:none;transition:gap .2s,color .2s; }
-    .pj-link:hover { gap:.7rem;color:#fff; }
-
-    /* ═══ CONTACT ═══ */
-    .contact-grid { display:grid;grid-template-columns:1fr 1.25fr;gap:4rem;align-items:start; }
-    .contact-sub { color:var(--text-muted);font-size:15.5px;line-height:1.85;margin-bottom:2.5rem; }
-    .c-items { display:flex;flex-direction:column;gap:.95rem; }
-    .c-item { display:flex;align-items:center;gap:.9rem;color:var(--text-muted);font-size:14px; }
-    .c-icon { width:36px;height:36px;flex-shrink:0;border-radius:var(--r-sm);background:rgba(28,110,160,.15);border:1px solid rgba(103,177,224,.18);display:flex;align-items:center;justify-content:center;color:var(--accent-blue);font-size:13px; }
-    .c-socs { display:flex;gap:.6rem;margin-top:2rem; }
-
-    .cform { padding:2rem;border-radius:var(--r-xl);background:var(--glass-bg);border:1px solid var(--glass-border);backdrop-filter:blur(16px); }
-    .f-row { display:grid;grid-template-columns:1fr 1fr;gap:1rem; }
-    .fg { margin-bottom:.95rem; }
-    .fg label { display:block;font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-dim);margin-bottom:.4rem; }
-    .fg input,.fg textarea { width:100%;padding:.7rem 1rem;background:rgba(10,18,32,.55);border:1px solid var(--glass-border);border-radius:var(--r-md);color:var(--text-light);font-family:var(--font-body);font-size:14px;outline:none;resize:none;transition:border-color .22s,box-shadow .22s; }
-    .fg input:focus,.fg textarea:focus { border-color:rgba(103,177,224,.45);box-shadow:0 0 0 3px rgba(103,177,224,.07); }
-    .fg input::placeholder,.fg textarea::placeholder { color:var(--text-dim); }
-    .fg textarea { height:110px; }
-    .fsubmit { width:100%;padding:.82rem;cursor:none;background:var(--btn-bg);color:#fff;border:1px solid rgba(103,177,224,.25);border-radius:var(--r-md);font-family:var(--font-body);font-size:14.5px;font-weight:500;display:flex;align-items:center;justify-content:center;gap:.5rem;transition:all .25s;box-shadow:0 0 20px rgba(28,110,160,.3),inset 0 1px 0 rgba(255,255,255,.07); }
-    .fsubmit:hover { background:var(--accent-dark);border-color:var(--accent-blue);box-shadow:0 0 34px rgba(41,128,185,.45),inset 0 1px 0 rgba(255,255,255,.1);transform:translateY(-1px); }
-
-    footer { border-top:1px solid rgba(103,177,224,.07);padding:1.8rem 0;text-align:center; }
-    footer p { font-family:var(--font-mono);font-size:11px;color:var(--text-dim);letter-spacing:.06em; }
-    footer span { color:var(--accent-blue); }
-
-    /* RESPONSIVE */
-    @media (hover: none) and (pointer: coarse) {
-      body { cursor: auto; }
-      #c-dot, #c-ring { display: none; }
-      a, button, .btn, .soc, .pj-card, .sidenav a { cursor: pointer; }
-    }
-    @media(max-width:920px){
-      section{min-height:auto;padding:6.5rem 0 4.5rem}
-      #hero{padding-top:8rem}
-      .hero-grid{grid-template-columns:1fr;gap:2.5rem}
-      .card-col{display:flex;justify-content:center}
-      .card-tilt{transform:none}
-      .about-grid{grid-template-columns:1fr;gap:2.5rem}
-      .pj-grid{grid-template-columns:repeat(2,1fr)}
-      .contact-grid{grid-template-columns:1fr;gap:2.5rem}
-      .sidenav{display:none}
-    }
-    @media(max-width:720px){
-      .topbar{padding:1rem 1.4rem;flex-direction:column;align-items:flex-start;gap:.55rem}
-      .avail-badge{display:none}
-      .wrap{width:92%}
-      .site{padding-bottom:calc(86px + env(safe-area-inset-bottom))}
-      .hero-desc{max-width:100%}
-      .hero-ctas{flex-direction:column;align-items:stretch}
-      .hero-ctas .btn{width:100%;justify-content:center}
-      .hero-socials{flex-wrap:wrap;gap:.7rem}
-      .float-chip{display:none}
-      .pframe{max-width:220px;margin:0 auto}
-      .pfallback{width:220px}
-      .pframe-accent{right:-6px;bottom:-6px}
-      .stat-row{flex-direction:column;gap:.7rem}
-      .pj-grid{grid-template-columns:1fr}
-      .pj-body{padding:1.15rem}
-      .cform{padding:1.4rem}
-      .f-row{grid-template-columns:1fr}
-      .c-item{align-items:flex-start}
-      .grid-layer{background-size:44px 44px}
-      .sidenav{
-        position:fixed;left:.5rem;right:.5rem;top:auto;bottom:calc(.7rem + env(safe-area-inset-bottom));
-        z-index:220;display:flex;flex-direction:row;align-items:center;justify-content:space-between;
-        gap:.2rem;max-width:520px;margin:0 auto;padding:.65rem .7rem;border-radius:18px;
-        background:rgba(8,14,24,.72);border:1px solid rgba(103,177,224,.18);
-        backdrop-filter:blur(18px) saturate(1.25);
-        box-shadow:0 18px 50px rgba(6,13,23,.6),0 0 0 1px rgba(103,177,224,.08),inset 0 1px 0 rgba(255,255,255,.04);
-        overflow:hidden;isolation:isolate;
-      }
-      .sidenav::before{
-        content:'';position:absolute;inset:-60% -10% auto -10%;height:140%;z-index:0;
-        background:radial-gradient(circle at 20% 30%, rgba(103,177,224,.25), transparent 60%),
-                   radial-gradient(circle at 80% 10%, rgba(41,128,185,.22), transparent 55%);
-        filter:blur(16px);opacity:.9;
-      }
-      .sidenav::after{
-        content:'';position:absolute;inset:auto -10% -60% -10%;height:140%;z-index:0;
-        background:radial-gradient(circle at 30% 80%, rgba(103,177,224,.18), transparent 60%),
-                   radial-gradient(circle at 70% 100%, rgba(28,110,160,.2), transparent 55%);
-        filter:blur(20px);opacity:.7;
-      }
-      .sidenav a{position:relative;z-index:1;flex:1 1 0;min-width:0;flex-direction:column;align-items:center;gap:.45rem;cursor:pointer;padding:.1rem 0}
-      .sn-lbl{opacity:1;transform:none;font-size:10px;letter-spacing:.12em;color:var(--text-dim);white-space:nowrap}
-      .sn-dot{width:7px;height:7px}
-      .sidenav a.active .sn-lbl{color:var(--accent-light)}
-      .sidenav a.active .sn-dot{transform:scale(1.35);box-shadow:0 0 10px var(--accent-blue)}
-    }
-    @media(max-width:520px){
-      body{font-size:15px}
-      #hero{padding-top:7.5rem}
-      .hero-name{font-size:clamp(2.4rem,9vw,3.4rem)}
-      .hero-role{font-size:12px}
-      .hero-desc{font-size:15px}
-      h2.stitle{font-size:clamp(1.8rem,7vw,2.5rem);margin-bottom:1.8rem}
-      .stag{font-size:9px}
-      .pj-intro{margin-bottom:2rem}
-      .id-card{width:100%;max-width:320px}
-      .qr-box{width:38px}
-      .chip{font-size:10px}
-      .tpill{font-size:9px}
-      .c-item{font-size:13px}
-      footer p{font-size:10px}
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<div id="c-dot"></div>
-<div id="c-ring"></div>
-<div id="spb"></div>
+  <div id="c-dot"></div>
+  <div id="c-ring"></div>
+  <div id="spb"></div>
 
-<div class="liquid-bg">
-  <div class="blob b1"></div><div class="blob b2"></div>
-  <div class="blob b3"></div><div class="blob b4"></div>
-</div>
-<div class="grid-layer"></div>
+  <div class="liquid-bg">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+    <div class="blob b4"></div>
+  </div>
+  <div class="grid-layer"></div>
 
-<header class="topbar">
-  <div class="logo">gmj<em>.dev</em></div>
-  <div class="avail-badge"><span class="avail-dot"></span>Available for opportunities</div>
-</header>
+  <header class="topbar">
+    <div class="logo">gmj<em>.dev</em></div>
+  </header>
 
-<nav class="sidenav" id="sn">
-  <a href="#hero" class="active"><span class="sn-lbl">Home</span><span class="sn-dot"></span></a>
-  <a href="#about"><span class="sn-lbl">About</span><span class="sn-dot"></span></a>
-  <a href="#projects"><span class="sn-lbl">Projects</span><span class="sn-dot"></span></a>
-  <a href="#contact"><span class="sn-lbl">Contact</span><span class="sn-dot"></span></a>
-</nav>
+  <nav class="sidenav" id="sn">
+    <a href="#hero" class="active"><span class="sn-lbl">Home</span><span class="sn-dot"></span></a>
+    <a href="#about"><span class="sn-lbl">About</span><span class="sn-dot"></span></a>
+    <a href="#projects"><span class="sn-lbl">Projects</span><span class="sn-dot"></span></a>
+    <a href="#credentials"><span class="sn-lbl">Creds</span><span class="sn-dot"></span></a>
+  </nav>
 
-<div class="site">
+  <div class="site">
 
-  <!-- HERO -->
-  <section id="hero">
-    <div class="wrap">
-      <div class="hero-grid">
-        <div>
-          <p class="hero-eyebrow rev">Hello, I'm</p>
-          <h1 class="hero-name rev d1">
-            <span class="l1">Glenn Mark</span>
-            <span class="l2">Jacob</span>
-          </h1>
-          <div class="hero-role rev d2"><span id="tw"></span><span class="tw-cur"></span></div>
-          <p class="hero-desc rev d2">Building at the intersection of <strong>artificial intelligence</strong> and modern web — crafting applications that are smart, fast, and genuinely useful.</p>
-          <div class="hero-ctas rev d3">
-            <a href="#projects" class="btn btn-solid"><i class="fas fa-layer-group"></i> View Projects</a>
-            <a href="#contact" class="btn btn-outline"><i class="fas fa-paper-plane"></i> Let's Talk</a>
+    <!-- HERO -->
+    <section id="hero">
+      <div class="wrap">
+        <div class="hero-grid">
+          <div>
+            <p class="hero-eyebrow rev">Hello, I'm</p>
+            <h1 class="hero-name rev d1">
+              <span class="l1">Glenn Mark</span>
+              <span class="l2">Jacob</span>
+            </h1>
+            <div class="hero-role rev d2"><span id="tw"></span><span class="tw-cur"></span></div>
+            <p class="hero-desc rev d2">Building at the intersection of <strong>artificial intelligence</strong> and
+              modern web — crafting applications that are smart, fast, and genuinely useful.</p>
+            <div class="hero-ctas rev d3">
+              <a href="#projects" class="btn btn-solid"><i class="fas fa-layer-group"></i> View Projects</a>
+              <a href="/portfolio/img/Glenn Mark P. Jacob-(CV).pdf" target="_blank" class="btn btn-outline"><i
+                  class="fas fa-file-lines"></i> View CV</a>
+            </div>
+            <div class="hero-socials rev d4">
+              <a href="https://www.linkedin.com/in/glenn-mark-jacob-743016377/" target="_blank" class="soc"><i
+                  class="fab fa-linkedin-in"></i></a>
+              <a href="https://github.com/cob-g" target="_blank" class="soc"><i class="fab fa-github"></i></a>
+              <a href="https://www.facebook.com/EmarkP3" target="_blank" class="soc"><i
+                  class="fab fa-facebook-f"></i></a>
+              <a href="https://www.instagram.com/glnmrkjcb/" target="_blank" class="soc"><i
+                  class="fab fa-instagram"></i></a>
+            </div>
           </div>
-          <div class="hero-socials rev d4">
-            <a href="https://www.linkedin.com/in/glenn-mark-jacob-743016377/" target="_blank" class="soc"><i class="fab fa-linkedin-in"></i></a>
-            <a href="https://github.com/cob-g" target="_blank" class="soc"><i class="fab fa-github"></i></a>
-            <a href="https://www.facebook.com/EmarkP3" target="_blank" class="soc"><i class="fab fa-facebook-f"></i></a>
-            <a href="https://www.instagram.com/glnmrkjcb/" target="_blank" class="soc"><i class="fab fa-instagram"></i></a>
-          </div>
-        </div>
 
-        <div class="card-col rev d2">
-          <div class="card-scene">
-            <div class="float-chip fctl"><i class="fas fa-robot"></i> AI + Web</div>
-            <div class="float-chip fcbl"><i class="fas fa-map-marker-alt"></i> Philippines</div>
-            <div class="card-tilt">
-              <div class="id-card">
-                <div class="card-liq"></div>
-                <div class="card-top">
-                  <span class="card-badge">Access Card</span>
-                  <span class="card-num">GMJ — 01</span>
-                </div>
-                <div class="card-avt-ring">
-                  <div class="card-avt-inner">
-                    <img src="img/mypicture.jpg" alt="Glenn" onerror="this.style.display='none';this.parentElement.textContent='GMJ'">
+          <div class="card-col rev d2">
+            <div class="card-scene">
+              <div class="float-chip fctl"><i class="fas fa-robot"></i> AI + Web</div>
+              <div class="float-chip fcbl"><i class="fas fa-map-marker-alt"></i> Philippines</div>
+              <div class="card-tilt">
+                <div class="id-card">
+                  <div class="card-liq"></div>
+                  <div class="card-top">
+                    <span class="card-badge">Access Card</span>
+                    <span class="card-num">GMJ — 01</span>
                   </div>
-                </div>
-                <div class="card-name-text">Glenn Mark Jacob</div>
-                <div class="card-role-sub">Aspiring AI & Software Engineer</div>
-                <div class="card-div"></div>
-                <div class="card-foot">
-                  <div class="card-specs">
-                    <span class="card-spec">AI Engineering</span>
-                    <span class="card-spec">Web Development</span>
-                    <span class="card-spec">Open to Work</span>
+                  <div class="card-avt-ring">
+                    <div class="card-avt-inner">
+                      <img src="img/mypicture.jpg" alt="Glenn"
+                        onerror="this.style.display='none';this.parentElement.textContent='GMJ'">
+                    </div>
                   </div>
-                  <div class="qr-box" id="qr"></div>
+                  <div class="card-name-text">Glenn Mark Jacob</div>
+                  <div class="card-role-sub">Aspiring AI & Software Engineer</div>
+                  <div class="card-div"></div>
+                  <div class="card-foot">
+                    <div class="card-specs">
+                      <span class="card-spec">AI Engineering</span>
+                      <span class="card-spec">Web Development</span>
+                      <span class="card-spec">Open to Work</span>
+                    </div>
+                    <div class="qr-box" id="qr"></div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <div class="divider"></div>
+    <div class="divider"></div>
 
-  <!-- ABOUT -->
-  <section id="about">
-    <div class="wrap">
-      <div class="about-grid">
-        <div class="about-img rev">
-          <div class="pglow"></div>
-          <div class="pframe">
-            <img src="img/mypicture.jpg" alt="Glenn Mark Jacob"
-                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-            <div class="pfallback">GMJ</div>
-            <div class="pframe-accent"></div>
-          </div>
-          <div class="stat-row">
-            <div class="sbox"><span class="sval">3+</span><span class="slbl">Projects</span></div>
-            <div class="sbox"><span class="sval">6+</span><span class="slbl">AI Tools</span></div>
-            <div class="sbox"><span class="sval">2026</span><span class="slbl">Year</span></div>
-          </div>
-        </div>
-
-        <div class="about-text">
-          <div class="stag rev">About Me</div>
-          <h2 class="stitle rev d1">Crafting experiences<br>with <span>code & AI</span></h2>
-          <p class="rev d2">Hi! I'm an <strong>aspiring AI and software engineer</strong> based in the Philippines, passionate about building intelligent solutions and impactful applications.</p>
-          <p class="rev d2">What sets me apart is a <strong>cross-disciplinary approach</strong> — I bridge traditional web development and modern AI integration, working fluently across frontend technologies and a wide spectrum of AI platforms.</p>
-          <a href="img/Glenn-Mark-Jacob-CV.pdf" target="_blank" class="cvbtn rev d2"><i class="fas fa-file-alt"></i> View My CV</a>
-
-          <div class="skill-head rev d3">Web Development</div>
-          <div class="chip-row rev d3">
-            <span class="chip cw"><i class="fab fa-html5"></i> HTML/CSS</span>
-            <span class="chip cw"><i class="fab fa-js"></i> JavaScript</span>
-            <span class="chip cw"><i class="fab fa-css3-alt"></i> Tailwind CSS</span>
-            <span class="chip cw"><i class="fab fa-python"></i> Python/Flask</span>
-            <span class="chip cw"><i class="fab fa-wordpress"></i> WordPress</span>
-            <span class="chip cw"><i class="fas fa-pencil-ruler"></i> UI/UX Design</span>
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="wrap">
+        <div class="about-grid">
+          <div class="about-img rev">
+            <div class="pglow"></div>
+            <div class="pframe">
+              <img src="img/mypicture.jpg" alt="Glenn Mark Jacob"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+              <div class="pfallback">GMJ</div>
+              <div class="pframe-accent"></div>
+            </div>
+            <div class="stat-row">
+              <div class="sbox"><span class="sval">4+</span><span class="slbl">Projects</span></div>
+              <div class="sbox"><span class="sval">6+</span><span class="slbl">AI Tools</span></div>
+              <div class="sbox"><span class="sval">2026</span><span class="slbl">Year</span></div>
+            </div>
           </div>
 
-          <div class="skill-head rev d4">AI Engineering</div>
-          <div class="chip-row rev d4">
-            <span class="chip ca"><i class="fas fa-robot"></i> Gemini AI</span>
-            <span class="chip ca"><i class="fas fa-robot"></i> Claude AI</span>
-            <span class="chip ca"><i class="fas fa-robot"></i> ChatGPT</span>
-            <span class="chip ca"><i class="fas fa-robot"></i> Grok API</span>
-            <span class="chip ca"><i class="fas fa-robot"></i> Copilot</span>
-            <span class="chip ca"><i class="fas fa-robot"></i> Perplexity</span>
+          <div class="about-text">
+            <div class="stag rev">About Me</div>
+            <h2 class="stitle rev d1">Crafting experiences<br>with <span>code & AI</span></h2>
+            <p class="rev d2">Hi! I'm an <strong>aspiring AI and software engineer</strong> based in the Philippines,
+              passionate about building intelligent solutions and impactful applications.</p>
+            <p class="rev d2">What sets me apart is a <strong>cross-disciplinary approach</strong> — I bridge
+              traditional web development and modern AI integration, working fluently across frontend technologies and a
+              wide spectrum of AI platforms.</p>
+            <a href="/portfolio/img/Glenn Mark P. Jacob-(CV).pdf" target="_blank" class="btn btn-outline rev d2"><i
+                class="fas fa-file-lines"></i> View CV</a>
+
+            <div class="skill-head rev d3">Web Development</div>
+            <div class="chip-row rev d3">
+              <span class="chip cw"><i class="fab fa-html5"></i> HTML/CSS</span>
+              <span class="chip cw"><i class="fab fa-js"></i> JavaScript</span>
+              <span class="chip cw"><i class="fab fa-css3-alt"></i> Tailwind CSS</span>
+              <span class="chip cw"><i class="fab fa-python"></i> Python/Flask</span>
+              <span class="chip cw"><i class="fab fa-wordpress"></i> WordPress</span>
+              <span class="chip cw"><i class="fas fa-pencil-ruler"></i> UI/UX Design</span>
+            </div>
+
+            <div class="skill-head rev d4">AI Engineering</div>
+            <div class="chip-row rev d4">
+              <span class="chip ca"><i class="fas fa-robot"></i> Gemini AI</span>
+              <span class="chip ca"><i class="fas fa-robot"></i> Claude AI</span>
+              <span class="chip ca"><i class="fas fa-robot"></i> ChatGPT</span>
+              <span class="chip ca"><i class="fas fa-robot"></i> Grok API</span>
+              <span class="chip ca"><i class="fas fa-robot"></i> Copilot</span>
+              <span class="chip ca"><i class="fas fa-robot"></i> Perplexity</span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <div class="divider"></div>
+    <div class="divider"></div>
 
-  <!-- PROJECTS -->
-  <section id="projects">
-    <div class="wrap">
-      <div class="stag rev">Projects</div>
-      <h2 class="stitle rev d1">Things I've <span>built</span></h2>
-      <p class="pj-intro rev d1">A selection of projects reflecting how I think, build, and solve problems — from AI-powered chatbots to real-time web applications.</p>
+    <!-- PROJECTS -->
+    <section id="projects">
+      <div class="wrap">
+        <div class="stag rev">Projects</div>
+        <h2 class="stitle rev d1">Things I've <span>built</span></h2>
+        <p class="pj-intro rev d1">A selection of projects reflecting how I think, build, and solve problems — from
+          AI-powered chatbots to real-time web applications.</p>
 
-      <div class="pj-grid">
-        <div class="pj-card rev d1">
-          <div class="pj-thumb">
-            <img src="img/mindmate.png" alt="MindMate" onerror="this.style.display='none'">
-            <div class="pj-thumb-fade"></div>
-            <span class="pj-num">01</span>
-          </div>
-          <div class="pj-body">
-            <div class="pj-title">MindMate</div>
-            <p class="pj-desc">A compassionate AI chatbot powered by the Grok API, designed to offer supportive conversations and thoughtful responses for mental well-being.</p>
-            <div class="tech-row">
-              <span class="tpill">Tailwind CSS</span><span class="tpill">JavaScript</span><span class="tpill">MongoDB</span><span class="tpill">Grok API</span>
+        <div class="pj-grid">
+          <div class="pj-card pj-case-card rev d1">
+            <div class="pj-thumb pj-deck-thumb">
+              <img src="img/FloodSense1.png" alt="FloodSense project screenshot"
+                onerror="this.style.display='none'">
+              <div class="pj-thumb-fade"></div>
+              <span class="pj-num">01</span>
+              <span class="pj-deck-tag"><i class="fas fa-images"></i> Screenshot Deck</span>
+              <div class="pj-slide-peek" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
             </div>
-            <a href="https://e0b9ebbe.mindmate-c2r.pages.dev/" target="_blank" class="pj-link">Live Demo <i class="fas fa-arrow-right" style="font-size:9px"></i></a>
-          </div>
-        </div>
-
-        <div class="pj-card rev d2">
-          <div class="pj-thumb">
-            <img src="img/ojt.png" alt="OJTwJacob" onerror="this.style.display='none'">
-            <div class="pj-thumb-fade"></div>
-            <span class="pj-num">02</span>
-          </div>
-          <div class="pj-body">
-            <div class="pj-title">OJTwJacob</div>
-            <p class="pj-desc">OJT work as a WordPress developer — building creative designs, customizing themes, managing content, and delivering user-friendly web solutions.</p>
-            <div class="tech-row">
-              <span class="tpill">JavaScript</span><span class="tpill">HTML/CSS</span><span class="tpill">WordPress</span>
+            <div class="pj-body">
+              <div class="pj-title">FloodSense</div>
+              <p class="pj-desc">An IoT-powered flood monitoring and alert system built with the MERN stack and REST
+                APIs. It tracks real-time water levels with ESP32 and ultrasonic sensors, with live monitoring,
+                historical charts, offline support, and automated flood risk notifications.</p>
+              <div class="tech-row">
+                <span class="tpill">MERN Stack</span><span class="tpill">REST API</span><span
+                  class="tpill">ESP32</span><span class="tpill">IoT</span>
+              </div>
+              <button type="button" class="pj-link pj-deck-trigger" data-deck-open>View Slides <i
+                  class="fas fa-arrow-right" style="font-size:9px"></i></button>
             </div>
-            <a href="https://ojtwjacob.web.app/" target="_blank" class="pj-link">Live Demo <i class="fas fa-arrow-right" style="font-size:9px"></i></a>
           </div>
-        </div>
 
-        <div class="pj-card rev d3">
-          <div class="pj-thumb">
-            <img src="img/flasktalk.png" alt="Flasktalk" onerror="this.style.display='none'">
-            <div class="pj-thumb-fade"></div>
-            <span class="pj-num">03</span>
-          </div>
-          <div class="pj-body">
-            <div class="pj-title">Flasktalk</div>
-            <p class="pj-desc">A real-time multi-user chat application using Flask and Socket.IO, enabling live messaging with a clean interface and persistent connections.</p>
-            <div class="tech-row">
-              <span class="tpill">Flask</span><span class="tpill">Socket.IO</span><span class="tpill">HTML/CSS</span><span class="tpill">JavaScript</span>
+          <div class="pj-card rev d2">
+            <div class="pj-thumb">
+              <img src="img/mindmate.png" alt="MindMate" onerror="this.style.display='none'">
+              <div class="pj-thumb-fade"></div>
+              <span class="pj-num">02</span>
             </div>
-            <a href="https://multiuserchatapp.onrender.com/login?next=%2F" target="_blank" class="pj-link">Live Demo <i class="fas fa-arrow-right" style="font-size:9px"></i></a>
+            <div class="pj-body">
+              <div class="pj-title">MindMate</div>
+              <p class="pj-desc">A compassionate AI chatbot powered by the Grok API, designed to offer supportive
+                conversations and thoughtful responses for mental well-being.</p>
+              <div class="tech-row">
+                <span class="tpill">Tailwind CSS</span><span class="tpill">JavaScript</span><span
+                  class="tpill">MongoDB</span><span class="tpill">Grok API</span>
+              </div>
+              <a href="https://e0b9ebbe.mindmate-c2r.pages.dev/" target="_blank" class="pj-link">Live Demo <i
+                  class="fas fa-arrow-right" style="font-size:9px"></i></a>
+            </div>
+          </div>
+
+          <div class="pj-card rev d3">
+            <div class="pj-thumb">
+              <img src="img/ojt.png" alt="OJTwJacob" onerror="this.style.display='none'">
+              <div class="pj-thumb-fade"></div>
+              <span class="pj-num">03</span>
+            </div>
+            <div class="pj-body">
+              <div class="pj-title">OJTwJacob</div>
+              <p class="pj-desc">OJT work as a WordPress developer — building creative designs, customizing themes,
+                managing content, and delivering user-friendly web solutions.</p>
+              <div class="tech-row">
+                <span class="tpill">JavaScript</span><span class="tpill">HTML/CSS</span><span
+                  class="tpill">WordPress</span>
+              </div>
+              <a href="https://ojtwjacob.web.app/" target="_blank" class="pj-link">Live Demo <i
+                  class="fas fa-arrow-right" style="font-size:9px"></i></a>
+            </div>
+          </div>
+
+          <div class="pj-card rev d4">
+            <div class="pj-thumb">
+              <img src="img/flasktalk.png" alt="Flasktalk" onerror="this.style.display='none'">
+              <div class="pj-thumb-fade"></div>
+              <span class="pj-num">04</span>
+            </div>
+            <div class="pj-body">
+              <div class="pj-title">Flasktalk</div>
+              <p class="pj-desc">A real-time multi-user chat application using Flask and Socket.IO, enabling live
+                messaging with a clean interface and persistent connections.</p>
+              <div class="tech-row">
+                <span class="tpill">Flask</span><span class="tpill">Socket.IO</span><span
+                  class="tpill">HTML/CSS</span><span class="tpill">JavaScript</span>
+              </div>
+              <a href="https://multiuserchatapp.onrender.com/login?next=%2F" target="_blank" class="pj-link">Live Demo
+                <i class="fas fa-arrow-right" style="font-size:9px"></i></a>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <div class="divider"></div>
-
-  <!-- CONTACT -->
-  <section id="contact">
-    <div class="wrap">
-      <div class="contact-grid">
-        <div>
-          <div class="stag rev">Contact</div>
-          <h2 class="stitle rev d1">Let's build something <span>together</span></h2>
-          <p class="contact-sub rev d1">Have a project, a question, or just want to connect? I'm always open to new opportunities and conversations.</p>
-          <div class="c-items rev d2">
-            <div class="c-item"><div class="c-icon"><i class="fas fa-envelope"></i></div>jacobglennmark03@gmail.com</div>
-            <div class="c-item"><div class="c-icon"><i class="fas fa-phone"></i></div>09519224479</div>
-            <div class="c-item"><div class="c-icon"><i class="fas fa-map-marker-alt"></i></div>Quezon City, Philippines</div>
+    <div class="deck-modal" id="projectDeck" aria-hidden="true">
+      <div class="deck-backdrop" data-deck-close></div>
+      <div class="deck-panel" role="dialog" aria-modal="true" aria-labelledby="deckTitle">
+        <div class="deck-head">
+          <div>
+            <span class="deck-kicker">Project Screenshot Deck</span>
+            <h3 id="deckTitle">FloodSense</h3>
           </div>
-          <div class="c-socs rev d3">
-            <a href="https://www.linkedin.com/in/glenn-mark-jacob-743016377/" target="_blank" class="soc"><i class="fab fa-linkedin-in"></i></a>
-            <a href="https://github.com/cob-g" target="_blank" class="soc"><i class="fab fa-github"></i></a>
-            <a href="https://www.facebook.com/EmarkP3" target="_blank" class="soc"><i class="fab fa-facebook-f"></i></a>
-            <a href="https://www.instagram.com/glnmrkjcb/" target="_blank" class="soc"><i class="fab fa-instagram"></i></a>
-          </div>
+          <button type="button" class="deck-close" data-deck-close aria-label="Close screenshot deck">
+            <i class="fas fa-xmark"></i>
+          </button>
         </div>
-
-        <div class="cform rev d2">
-          <div class="f-row">
-            <div class="fg"><label>Your Name</label><input type="text" placeholder="John Doe"></div>
-            <div class="fg"><label>Your Email</label><input type="email" placeholder="john@email.com"></div>
-          </div>
-          <div class="fg"><label>Subject</label><input type="text" placeholder="Project idea, collaboration..."></div>
-          <div class="fg"><label>Message</label><textarea placeholder="Tell me about what you're working on..."></textarea></div>
-          <button class="fsubmit"><i class="fas fa-paper-plane"></i> Send Message</button>
+        <div class="deck-stage">
+          <button type="button" class="deck-nav deck-prev" data-deck-prev aria-label="Previous screenshot">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <figure class="deck-frame">
+            <div class="deck-browser">
+              <div class="deck-browser-bar">
+                <span></span>
+                <span></span>
+                <span></span>
+                <strong id="deckScreenLabel">Dashboard</strong>
+              </div>
+              <img id="deckImage" src="img/FloodSense1.png" alt="FloodSense project dashboard screenshot">
+            </div>
+            <figcaption>
+              <span id="deckCounter">01 / 05</span>
+              <p id="deckCaption">Dashboard view for real-time water level tracking and flood risk status.</p>
+            </figcaption>
+          </figure>
+          <button type="button" class="deck-nav deck-next" data-deck-next aria-label="Next screenshot">
+            <i class="fas fa-chevron-right"></i>
+          </button>
         </div>
+        <div class="deck-dots" id="deckDots" aria-label="Screenshot deck navigation"></div>
       </div>
     </div>
-  </section>
 
-  <footer><p>Designed & built by <span>Glenn Mark Jacob</span> — 2026</p></footer>
-</div>
+    <div class="divider"></div>
 
-<script>
-/* CURSOR */
-const dot=document.getElementById('c-dot'),ring=document.getElementById('c-ring');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
-(function animRing(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);})();
-document.querySelectorAll('a,button,.pj-card').forEach(el=>{
-  el.addEventListener('mouseenter',()=>document.body.classList.add('ch'));
-  el.addEventListener('mouseleave',()=>document.body.classList.remove('ch'));
-});
+    <!-- CREDENTIALS -->
+    <section id="credentials">
+      <div class="wrap">
+        <div class="stag rev">Trainings & Certifications</div>
+        <h2 class="stitle rev d1">Training, Seminars & <span>Certifications</span></h2>
+        <p class="cred-intro rev d1">Selected learning sessions and professional certifications from 2025 to 2026.</p>
 
-/* SCROLL PROGRESS */
-window.addEventListener('scroll',()=>{document.getElementById('spb').style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';});
+        <div class="cred-grid">
+          <div class="cred-card rev d1">
+            <div class="cred-head">
+              <div class="cred-title">Trainings & Seminars</div>
+              <div class="cred-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+            </div>
+            <ul class="cred-list">
+              <li class="cred-item">
+                <span class="cred-name">Google Developers Group Build With AI: The Future of AI &amp; Research (June 2026)</span>
+              </li>
+              <li class="cred-item">
+                <span class="cred-name">Microsoft Fabric + Foundry Workshop (June 2026)</span>
+              </li>
+              <li class="cred-item">
+                <span class="cred-name">Global AI Manila AgentCamp (Feb 2026)</span>
+              </li>
+              <li class="cred-item">
+                <span class="cred-name">Google Certified Gemini AI Educator (Dec 2025)</span>
+              </li>
+              <li class="cred-item">
+                <span class="cred-name">Microsoft Season of AI &ndash; MCP (Dec 2025)</span>
+              </li>
+              <li class="cred-item">
+                <span class="cred-name">The Code and Cloud Agentic Workshop (November 2025)</span>
+              </li>
+              <li class="cred-item">
+                <span class="cred-name">Microsoft Generative AI (August 2025)</span>
+              </li>
+            </ul>
+          </div>
 
-/* TYPEWRITER */
-const phrases=['AI & Software Engineer','Frontend Developer','AI Tools Integrator','Web Developer'];
-let pi=0,ci=0,del=false;
-const twEl=document.getElementById('tw');
-function type(){const w=phrases[pi];if(!del){twEl.textContent=w.slice(0,++ci);if(ci===w.length){del=true;setTimeout(type,1800);return;}}else{twEl.textContent=w.slice(0,--ci);if(ci===0){del=false;pi=(pi+1)%phrases.length;}}setTimeout(type,del?48:88);}
-type();
+          <div class="cred-card rev d2">
+            <div class="cred-head">
+              <div class="cred-title">Certifications</div>
+              <div class="cred-icon"><i class="fas fa-certificate"></i></div>
+            </div>
+            <ul class="cred-list">
+              <li class="cred-item">
+                <span class="cred-name">Google Developers Group Build With AI: The Future of AI &amp; Research</span>
+                <span class="cred-meta">June 2026</span>
+              </li>
+              <li class="cred-item">
+                <span class="cred-name">Certified Gemini AI Educator</span>
+                <span class="cred-meta">Dec 2025</span>
+              </li>
+              <li class="cred-item">
+                <span class="cred-name">Full-stack Development, DevOps, and AI-Assisted Coding</span>
+                <span class="cred-meta">November 2025</span>
+              </li>
+              <li class="cred-item">
+                <span class="cred-name">Cybersecurity in the Age of Cloud Computing and AI</span>
+                <span class="cred-meta">November 2025</span>
+              </li>
+              <li class="cred-item">
+                <span class="cred-name">AI Safety &amp; Ethics</span>
+                <span class="cred-meta">Nov 2025</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
 
-/* REVEAL */
-const ro=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');}),{threshold:0.1});
-document.querySelectorAll('.rev').forEach(el=>ro.observe(el));
+    <footer>
+      <p>Designed & built by <span>Glenn Mark Jacob</span> — 2026</p>
+    </footer>
+  </div>
 
-/* ACTIVE NAV */
-const so=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){document.querySelectorAll('.sidenav a').forEach(a=>a.classList.remove('active'));const l=document.querySelector(`.sidenav a[href="#${e.target.id}"]`);if(l)l.classList.add('active');}}),{threshold:0.4});
-document.querySelectorAll('section[id]').forEach(s=>so.observe(s));
-
-/* QR DECORATION */
-const qrEl=document.getElementById('qr');
-[1,0,1,1,0,1,0,1,0,0,1,0,1,0,1,1,0,0,1,1,0,0,1,0,1,0,1,0,0,1,1,0,0,1,0,1].forEach(v=>{const c=document.createElement('div');c.className='qrc'+(v?'':' e');qrEl.appendChild(c);});
-
-/* PARALLAX CARD */
-const ct=document.querySelector('.card-tilt');
-if(ct){document.addEventListener('mousemove',e=>{const rx2=((e.clientY/window.innerHeight)-.5)*10,ry2=(-(e.clientX/window.innerWidth)-.5)*10;ct.style.transform=`rotateX(${rx2}deg) rotateY(${ry2-10}deg)`;});}
-
-</script>
+  <script src="script.js"></script>
 </body>
+
 </html>
