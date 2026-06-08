@@ -417,6 +417,7 @@ section.is-visible > .wrap {
   text-decoration: none;
   cursor: none;
   padding: 0.2rem 0;
+  -webkit-tap-highlight-color: transparent;
   will-change: transform;
 }
 
@@ -441,18 +442,30 @@ section.is-visible > .wrap {
   transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
 }
 
-.sidenav a:hover .sn-lbl,
 .sidenav a.active .sn-lbl {
   opacity: 1;
   transform: translateX(0);
   color: var(--accent-light);
 }
 
-.sidenav a:hover .sn-dot,
 .sidenav a.active .sn-dot {
   background: var(--accent-blue);
   transform: scale(1.6);
   box-shadow: 0 0 12px var(--accent-blue);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .sidenav a:hover .sn-lbl {
+    opacity: 1;
+    transform: translateX(0);
+    color: var(--accent-light);
+  }
+
+  .sidenav a:hover .sn-dot {
+    background: var(--accent-blue);
+    transform: scale(1.6);
+    box-shadow: 0 0 12px var(--accent-blue);
+  }
 }
 
 /* ==========================================================================
@@ -1843,7 +1856,6 @@ footer span {
     height: 7px;
   }
 
-  .sidenav a:hover .sn-lbl,
   .sidenav a.active .sn-lbl {
     opacity: 1;
     transform: none;
