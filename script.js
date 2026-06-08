@@ -389,30 +389,65 @@ document.addEventListener('DOMContentLoaded', () => {
       entry.target.classList.toggle('is-visible', entry.isIntersecting);
     });
   }, {
-    threshold: 0.22,
-    rootMargin: '0px 0px -12% 0px'
+    threshold: 0.12,
+    rootMargin: '0px 0px -6% 0px'
   });
 
   sections.forEach(section => {
     sectionRevealObserver.observe(section);
   });
 
-  // --- Intersection Observer: Active Sidenav Indicator ---
-  const activeNavObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        document.querySelectorAll('.sidenav a').forEach(a => a.classList.remove('active'));
-        const activeLink = document.querySelector(`.sidenav a[href="#${entry.target.id}"]`);
-        if (activeLink) {
-          activeLink.classList.add('active');
-        }
+  // --- Scroll Spy: Keep only one active nav item on mobile and desktop ---
+  const navLinks = Array.from(document.querySelectorAll('.sidenav a[href^="#"]'));
+  const navSections = Array.from(document.querySelectorAll('section[id]'));
+  let navSpyTicking = false;
+
+  function setActiveNav(sectionId) {
+    navLinks.forEach(link => {
+      const isActive = link.getAttribute('href') === `#${sectionId}`;
+      link.classList.toggle('active', isActive);
+    });
+  }
+
+  function resolveActiveNav() {
+    navSpyTicking = false;
+
+    if (!navSections.length) return;
+
+    const marker = window.innerHeight * 0.36;
+    let chosenSection = navSections[0];
+    let smallestDistance = Infinity;
+
+    navSections.forEach(section => {
+      const rect = section.getBoundingClientRect();
+      const top = rect.top;
+      const bottom = rect.bottom;
+
+      if (top <= marker && bottom >= marker) {
+        chosenSection = section;
+        smallestDistance = 0;
+        return;
+      }
+
+      const distance = Math.min(Math.abs(top - marker), Math.abs(bottom - marker));
+      if (distance < smallestDistance) {
+        smallestDistance = distance;
+        chosenSection = section;
       }
     });
-  }, { threshold: 0.35 });
-  
-  document.querySelectorAll('section[id]').forEach(sec => {
-    activeNavObserver.observe(sec);
-  });
+
+    setActiveNav(chosenSection.id);
+  }
+
+  function requestNavUpdate() {
+    if (navSpyTicking) return;
+    navSpyTicking = true;
+    window.requestAnimationFrame(resolveActiveNav);
+  }
+
+  window.addEventListener('scroll', requestNavUpdate, { passive: true });
+  window.addEventListener('resize', requestNavUpdate);
+  requestNavUpdate();
 
   // --- QR Code Grid Generation ---
   if (qrEl) {
