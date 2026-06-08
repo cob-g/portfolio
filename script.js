@@ -403,9 +403,17 @@ document.addEventListener('DOMContentLoaded', () => {
   let navSpyTicking = false;
 
   function setActiveNav(sectionId) {
+    const activeHref = `#${sectionId}`;
+
     navLinks.forEach(link => {
-      const isActive = link.getAttribute('href') === `#${sectionId}`;
-      link.classList.toggle('active', isActive);
+      link.classList.remove('active');
+      link.blur();
+    });
+
+    navLinks.forEach(link => {
+      if (link.getAttribute('href') === activeHref) {
+        link.classList.add('active');
+      }
     });
   }
 
@@ -447,6 +455,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   window.addEventListener('scroll', requestNavUpdate, { passive: true });
   window.addEventListener('resize', requestNavUpdate);
+  window.addEventListener('hashchange', requestNavUpdate);
   requestNavUpdate();
 
   // --- QR Code Grid Generation ---

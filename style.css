@@ -1860,6 +1860,16 @@ footer span {
     opacity: 1;
     transform: none;
   }
+
+  .sidenav a:not(.active) .sn-lbl {
+    color: var(--text-dim);
+  }
+
+  .sidenav a:not(.active) .sn-dot {
+    background: var(--text-dim);
+    box-shadow: none;
+    transform: none;
+  }
 }
 
 /* Mobile landscape and smaller layouts */
